@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Group Storage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image:url("./images/3d-render-medical-background-with-connecting-dots-dna-strands.jpg");
+            background-size:cover;
+            background-position:center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Make the background image fixed */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: auto; /* Enable scrolling if needed */
+        }
+
+        .blood-bank-heading {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #008CBA;
+        }
+
+        .navbar {
+            background-color: #008CBA;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a i {
+            margin-right: 5px; /* Add some space between the icon and text */
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 90px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            padding-top: 10px;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 15px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: #FF0000;
+            margin-top: 5px;
+        }
+    </style>76
+</head>
+<body class="blood-bank-body">
+<div class="container">
+    <div class="blood-bank-heading">Blood Bank Connections</div>
+    <div class="navbar">
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="/v1/donors"><i class="fas fa-database"></i> Data</a>
+        <a href="/v1/donors"><i class="fas fa-trash-alt"></i> Delete</a>
+        <a href="/v1/donors"><i class="fas fa-edit"></i> Update</a>
+    </div>
+    <form id="donorForm" th:action="@{/saveDonor}" method="post" th:object="${donor}">
+        <input type="hidden" th:field="*{id}">
+        <div class="form-group">
+            <label for="blood_group">Blood Group:</label>
+            <input type="text" class="form-control" id="bloodGroup" th:field="*{blood_group}" required>
+            <div class="error-message" id="bloodGroupError"></div>
+        </div>
+        <div class="form-group">
+            <label for="blood_id">Blood ID:</label>
+            <input type="text" class="form-control" id="bloodId" th:field="*{blood_id}" required>
+            <div class="error-message" id="bloodIdError"></div>
+        </div>
+        <div class="form-group">
+            <label for="branch_name">Branch Name:</label>
+            <input type="text" class="form-control" id="branchName" th:field="*{branch_name}" required>
+            <div class="error-message" id="branchNameError"></div>
+        </div>
+        <div class="form-group">
+            <label for="branch_district">Branch District:</label>
+            <input type="text" class="form-control" id="branchDistrict" th:field="*{branch_district}" required>
+            <div class="error-message" id="branchDistrictError"></div>
+        </div>
+        <div class="form-group">
+            <label for="entry_date">Entry Date:</label>
+            <input type="date" class="form-control" id="entryDate" th:field="*{entry}" required>
+            <div class="error-message" id="entryDateError"></div>
+        </div>
+        <button type="button" onclick="validateForm()" class="btn btn-primary">Save Donor</button>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        document.getElementById("bloodGroupError").innerHTML = "";
+        document.getElementById("bloodIdError").innerHTML = "";
+        document.getElementById("branchNameError").innerHTML = "";
+        document.getElementById("branchDistrictError").innerHTML = "";
+
+        var bloodGroup = document.getElementById("bloodGroup").value;
+        if (bloodGroup === "") {
+            document.getElementById("bloodGroupError").innerHTML = "Blood Group is required";
+            return false;
+        }
+
+        var bloodId = document.getElementById("bloodId").value;
+        if (bloodId === "") {
+            document.getElementById("bloodIdError").innerHTML = "Blood ID is required";
+            return false;
+        }
+
+        var branchName = document.getElementById("branchName").value;
+        if (branchName === "") {
+            document.getElementById("branchNameError").innerHTML = "Branch Name is required";
+            return false;
+        }
+
+        var branchDistrict = document.getElementById("branchDistrict").value;
+        if (branchDistrict === "") {
+            document.getElementById("branchDistrictError").innerHTML = "Branch District is required";
+            return false;
+        }
+
+        document.getElementById("donorForm").submit();
+    }
+</script>
+</body>
+</html>

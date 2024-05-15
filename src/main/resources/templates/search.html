@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2 class="mt-4">Search Results</h2>
+    <table class="table mt-4">
+        <thead>
+        <tr>
+            <th>Blood Group</th>
+            <th>Blood ID</th>
+            <th>Branch Name</th>
+            <th>Branch District</th>
+            <th>Entry Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="donor : ${donors}">
+            <td th:text="${donor.bloodGroup}"></td>
+            <td th:text="${donor.bloodId}"></td>
+            <td th:text="${donor.branchName}"></td>
+            <td th:text="${donor.branchDistrict}"></td>
+            <td th:text="${donor.entryDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

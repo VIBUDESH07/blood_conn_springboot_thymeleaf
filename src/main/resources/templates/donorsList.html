@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Donors List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image:url("./images/istockphoto-1320162065-612x612.jpg");
+            background-size:cover;
+            background-position:center center;
+            background-repeat: repeat-y;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+        }
+        .navbar {
+            background-color: #333333;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        .navbar a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: white;
+        }
+        table {
+            background-color: white;
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #333; /* Dark border color */
+        }
+        th, td {
+            border: 1px solid #333; /* Dark border color */
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #333; /* Dark color for table heading */
+            color: #fff; /* Text color for table heading */
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .update-button, .delete-button {
+            background-color: #007bff; /* Blue button color */
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .delete-button {
+            background-color: #dc3545; /* Red button color */
+        }
+        .update-button:hover, .delete-button:hover {
+            background-color: #0056b3; /* Darker hover color */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Donor's List</h1>
+    <div class="navbar">
+        <a href="/v1/donorform">Home</a>
+    </div>
+    <form th:action="@{/donors}" method="get">
+        <label for="bloodGroup">Enter Blood Group:</label>
+        <input type="text" id="bloodGroup" name="keyword">
+        <button type="submit">Search</button>
+        <button type="button" onclick="clearSearch()">Clear</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>Blood Group</th>
+            <th>Blood ID</th>
+            <th>Branch Name</th>
+            <th>Branch District</th>
+            <th>Entry Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="donor : ${donors}">
+            <td th:text="${donor.blood_group}"></td>
+            <td th:text="${donor.blood_id}"></td>
+            <td th:text="${donor.branch_name}"></td>
+            <td th:text="${donor.branch_district}"></td>
+            <td th:text="${donor.entry}"></td>
+            <td>
+                <a class="update-button" th:href="@{'/edit/' + ${donor.id}}">Update</a>
+                <a class="delete-button" th:href="@{'/delete/'+${donor.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    function clearSearch() {
+        document.getElementById('bloodGroup').value = '';
+    }
+</script>
+</body>
+</html>
